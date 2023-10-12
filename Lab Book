@@ -6,4 +6,10 @@ be rolled back to 1.5.2 in order to allow PyMC to function, as I ran into issues
 
 ## Thursday 12/10/23
 I started the day continuing from Tuesday. My ambition at the start of the day was to get a few ABC models set up and running. The first task was to restructure the SIR model to return
-the times as well as X in one numpy array, so that I could give the model one piece of obversed data.
+the times as well as X in one numpy array, so that I could give the model one piece of obversed data. The parameters used to generate the fake "reality" which the models are to be based
+upon are as follows:
+X0 = [9999,1,0]
+beta = 3
+gamma = 1.5
+mu = 0
+tmax = 100
