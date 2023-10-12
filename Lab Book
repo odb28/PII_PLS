@@ -1,0 +1,9 @@
+## Tuesday 10/10/23
+Today was my first day in the lab. I had previously developed a SIR model, based on Gillespe's direct method. I had included births and deaths at the same rate, however due to time
+constraints it was decided to set mu=0. I developed a few tests for the model (based on P of extinctions and final epidemic sizes) which the model passed. These looked to see whether
+the model roughly met the deterministic outcomes for a range of parameters. The model passed all the tests. Seed used was 1690. Librairies used include numpy, Pymc, Arviz and pyplot. Numpy had to
+be rolled back to 1.5.2 in order to allow PyMC to function, as I ran into issues with that library.
+
+## Thursday 12/10/23
+I started the day continuing from Tuesday. My ambition at the start of the day was to get a few ABC models set up and running. The first task was to restructure the SIR model to return
+the times as well as X in one numpy array, so that I could give the model one piece of obversed data.
