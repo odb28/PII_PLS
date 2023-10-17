@@ -6,10 +6,10 @@ be rolled back to 1.5.2 in order to allow PyMC to function, as I ran into issues
 
 ## Thursday 12/10/23
 I started the day continuing from Tuesday. My ambition at the start of the day was to get a few ABC models set up and running. The first task was to restructure the SIR model to return
-the times as well as X in one numpy array, so that I could give the model one piece of obversed data. The parameters used to generate the fake "reality" which the models are to be based
-upon are as follows:
-X0 = [9995,5,0]
-beta = 3
-gamma = 1
-mu = 0
-tmax = 100
+the times as well as X in one numpy array, so that I could give the model one piece of obversed data. However, there were issues with the SIR function, which took the day to solve. The
+solution was in fixing the length of the output array of the SIR model.
+
+## Tuesday 17/10/23
+Today I fixed the issues left over from last day and fitted my first model. It took ~30 mins to run, however optimisation has been able to reduce this. The plan is to fit a series of models
+at neutral resolution, and then at 5 lower resolutions: X2, X3, X5, X7, X10. The plan is to fit 10 of each model initially. The change in resolution will be by starting with a lower value of N,
+and then scaling the output of the SIR model up to the neutral resolution. This should generate good initial plots etc.
