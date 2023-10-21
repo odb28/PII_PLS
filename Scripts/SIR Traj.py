@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
 
     #Initialise RNG
-    seed = 2
+    seed = 9
     rng = np.random.default_rng(seed)
     def sim_sir(model_rng, b, g, size=None):
         return real_sir(X0, mu, b, g, tmax, tstep, rng) * factor
