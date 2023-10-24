@@ -16,3 +16,8 @@ and then scaling the output of the SIR model up to the neutral resolution. This 
 
 ## Thursday 19/10/23
 Today I began by writing a script that will generate trajectory data by changing the initial seed. I will use seeds 1-10 for the 10 trajectories.
+
+##Tuesday 24/10/23
+Meeting with Nik: Gamma may not be hugely impactful. Keep an eye on how the data actually fits as well/consider other metrics e.g., time to get started. Fix the mean by switching to the mode 
+for the probability distribution. Also check each run against the maximum likelihood estimate. Next steps: learn how to use the HBC. Look at how quantisation changes the epidemic based on extinctions.
+Start using controls on the model. Then consider how reducing the proportional epidemic load impacts the model @ full N.
