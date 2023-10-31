@@ -8,14 +8,14 @@ if __name__ == '__main__':
 
 
     #Initialise RNG
-    seed = 9
+    seed = 10
     rng = np.random.default_rng(seed)
     def sim_sir(model_rng, b, g, size=None):
         return real_sir(X0, mu, b, g, tmax, tstep, rng) * factor
 
 
     # Run the "real world"
-    X0 = [950, 100, 0]
+    X0 = [900, 100, 0]
     beta = 3
     gamma = 1
     mu = 0
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     with pm.Model() as test:
         b = pm.HalfNormal("b", 5)
         g = pm.HalfNormal("g", 5)
-        s = pm.Simulator("s", sim_sir, params=(b, g), epsilon=1000, observed=reality)
+        s = pm.Simulator("s", sim_sir, params=(b, g), epsilon=500, observed=reality)
         idata1 = pm.sample_smc(progressbar=False)
     print(f"Resolution X1 took {time.time() - start_time} seconds to fit!")
     b1 = idata1.posterior.b
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     with pm.Model() as test:
         b = pm.HalfNormal("b", 5)
         g = pm.HalfNormal("g", 5)
-        s = pm.Simulator("s", sim_sir, params=(b, g), epsilon=1000, observed=reality)
+        s = pm.Simulator("s", sim_sir, params=(b, g), epsilon=500, observed=reality)
         idata2 = pm.sample_smc(progressbar=False)
     print(f"Resolution X2 took {time.time() - start_time} seconds to fit!")
     b2 = idata2.posterior.b
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     with pm.Model() as test:
         b = pm.HalfNormal("b", 5)
         g = pm.HalfNormal("g", 5)
-        s = pm.Simulator("s", sim_sir, params=(b, g), epsilon=1000, observed=reality)
+        s = pm.Simulator("s", sim_sir, params=(b, g), epsilon=500, observed=reality)
         idata3 = pm.sample_smc(progressbar=False)
     print(f"Resolution X3 took {time.time() - start_time} seconds to fit!")
     b3 = idata3.posterior.b
