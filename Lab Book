@@ -21,3 +21,15 @@ Today I began by writing a script that will generate trajectory data by changing
 Meeting with Nik: Gamma may not be hugely impactful. Keep an eye on how the data actually fits as well/consider other metrics e.g., time to get started. Fix the mean by switching to the mode 
 for the probability distribution. Also check each run against the maximum likelihood estimate. Next steps: learn how to use the HBC. Look at how quantisation changes the epidemic based on extinctions.
 Start using controls on the model. Then consider how reducing the proportional epidemic load impacts the model @ full N.
+
+##Thursday 26/10.23
+I refitted the models with correct X0 values and used the mode instead of the mean for my posterior estimate. I also wrote and tested a MLE function, and generated a set of new plots.
+
+##Tuesday 31/10/23
+I met with Rachel to discuss next steps and the parameter fitting. We came up with a multipoint plan of next tasks. There are as follows:
+1. Look @ paired t-test with MLE estimates and N=1000 parameter estaimtes
+2. Look @ Traj 1,5,6 as they were outliers regarding gamma. Investigate the PyMC function and what output data it gives.
+3. Refit Trajs with a fixed gamma
+4. Set I(0)= 1 for all resolution and fit.
+5. Look @ final epidemic sizes/extinction proportions for all fitted parameter values. Run 1000 simulations for each.
+6. Add a series of controls: Scale beta; add another gamma parameter; do a fixed cull @ certain timesteps.
