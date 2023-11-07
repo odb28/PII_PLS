@@ -33,3 +33,8 @@ I met with Rachel to discuss next steps and the parameter fitting. We came up wi
 4. Set I(0)= 1 for all resolution and fit.
 5. Look @ final epidemic sizes/extinction proportions for all fitted parameter values. Run 1000 simulations for each.
 6. Add a series of controls: Scale beta; add another gamma parameter; do a fixed cull @ certain timesteps.
+
+## Tuesday 7/10/23
+I have continued to work on the 6th above objectives. 1,3,5 and 6 are finished. 2 is harder as the ABC used is based on a more matheamtically involved method that is harder to detect issues for.
+However, N=10 had incredibly low acceptance rates. By fitting with a function that repeats the simulation (up to 10 times) if an early extinction occurs, I hope to increase the stability of N=10.
+
