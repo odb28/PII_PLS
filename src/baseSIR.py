@@ -289,7 +289,7 @@ def model_sir(X0, mu, beta, gamma, tmax, tstep,
             r_step = int(r_t / tstep)
             for i in range(r_step):
                 sol = np.append(sol, [X], axis=0)
-            if t < 5 / gamma:
+            if t < 3 / gamma:
                 ex = 1
             else:
                 ex = 0
@@ -300,7 +300,7 @@ def model_sir(X0, mu, beta, gamma, tmax, tstep,
             sol = np.append(sol, [X], axis=0)
     while len(sol) > tmax / tstep:
         sol = np.delete(sol, -1, 0)
-    if t < 5 / gamma:
+    if t < 3 / gamma:
         ex = 1
     else:
         ex = 0
