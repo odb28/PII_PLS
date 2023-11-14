@@ -2,7 +2,7 @@ if __name__ == '__main__':
     import time
     import numpy as np
     import pymc as pm
-    from src.baseSIR import real_sir
+    from src.baseSIR import no_ext_sir
 
 
 
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     seed = 10
     rng = np.random.default_rng(seed)
     def sim_sir(model_rng, b, size=None):
-        return real_sir(X0, mu, b, gamma, tmax, tstep, rng) * factor
+        return no_ext_sir(X0, mu, b, gamma, tmax, tstep, rng) * factor
 
 
     # Run the "real world"
@@ -19,17 +19,17 @@ if __name__ == '__main__':
     beta = 3
     gamma = 1
     mu = 0
-    tmax = 10
+    tmax = 11.05
     tstep = 0.05
     start_time = time.time()
-    reality = real_sir(X0, mu, beta, gamma, tmax, tstep,rng)
+    reality = no_ext_sir(X0, mu, beta, gamma, tmax, tstep,rng)
     print(f"Reality took {time.time() - start_time} seconds to run!")
 
     # Resolution X1
     X0 = [900, 100, 0]
     mu = 0
     gamma = 1
-    tmax = 10
+    tmax = 11.05
     tstep = 0.05
     factor = 1
     start_time = time.time()
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     X0 = [90, 10, 0]
     mu = 0
     gamma = 1
-    tmax = 10
+    tmax = 11.05
     tstep = 0.05
     factor = 10
     start_time = time.time()
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     # Resolution X100
     X0 = [9, 1, 0]
     mu = 0
-    tmax = 10
+    tmax = 11.05
     gamma = 1
     tstep = 0.05
     factor = 100
