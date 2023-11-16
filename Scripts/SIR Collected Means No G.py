@@ -24,6 +24,6 @@ for i in range(1,11):
 
 
 
-np.savetxt("../Data/fixed_G_N_1000_b.csv",N_1000_b,delimiter=",")
-np.savetxt("../Data/fixed_G_N_100_b.csv",N_100_b,delimiter=",")
-np.savetxt("../Data/fixed_G_N_10_b.csv",N_10_b,delimiter=",")
+np.savetxt("../Data/fixed_g_N_1000_b.csv",N_1000_b,delimiter=",")
+np.savetxt("../Data/fixed_g_N_100_b.csv",N_100_b,delimiter=",")
+np.savetxt("../Data/fixed_g_N_10_b.csv",N_10_b,delimiter=",")

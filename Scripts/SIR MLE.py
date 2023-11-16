@@ -6,6 +6,7 @@ import time
 def opt_mle(paras):
     return - mle(paras[0],paras[1],timed_real,times_real,tmax)
 
+R0 = 5
 mle_b = []
 mle_g = []
 start_time = time.time()
@@ -37,5 +38,5 @@ for i in range(1,11):
     mle_g.append(best_g)
 print(f"MLE took {time.time() - start_time} seconds to run")
 
-np.savetxt(f"../Data/MLE_b.csv", mle_b, delimiter=",")
-np.savetxt(f"../Data/MLE_g.csv", mle_g, delimiter=",")
+np.savetxt(f"../Data/R0_{R0}/Fitted/MLE_b_{R0}.csv", mle_b, delimiter=",")
+np.savetxt(f"../Data//R0_{R0}/Fitted/MLE_g_{R0}.csv", mle_g, delimiter=",")
