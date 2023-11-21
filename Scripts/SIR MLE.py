@@ -7,12 +7,14 @@ def opt_mle(paras):
     return - mle(paras[0],paras[1],timed_real,times_real,tmax)
 
 R0 = 5
+extra = ["","_I0_1"]
+I0 = extra[0]
 mle_b = []
 mle_g = []
 start_time = time.time()
 for i in range(1,11):
     X0 = [900,100,0]
-    beta = 3
+    beta = R0
     gamma = 1
     mu = 0
     tmax = 10
@@ -38,5 +40,5 @@ for i in range(1,11):
     mle_g.append(best_g)
 print(f"MLE took {time.time() - start_time} seconds to run")
 
-np.savetxt(f"../Data/R0_{R0}/Fitted/MLE_b_{R0}.csv", mle_b, delimiter=",")
-np.savetxt(f"../Data//R0_{R0}/Fitted/MLE_g_{R0}.csv", mle_g, delimiter=",")
+np.savetxt(f"../Data/R0_{R0}/Fitted/MLE_b{I0}_{R0}.csv", mle_b, delimiter=",")
+np.savetxt(f"../Data//R0_{R0}/Fitted/MLE_g{I0}_{R0}.csv", mle_g, delimiter=",")

@@ -45,7 +45,16 @@ def mle_sir(X0,mu,beta,gamma,tmax,tstep,rng):
     :return: X(t), times of events, X(t) updated at every event
     """
 
-    out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+    # Prevent extinctions
+
+    counter = 0
+    while counter < 1:
+        out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+        if ex == 0:
+            counter += 10
+            return out, times,timed_sol
+        else:
+            counter += 0.2
     return out,times,timed_sol
 
 
@@ -100,7 +109,14 @@ def timed_sir(X0,mu,beta,gamma,tmax,rng):
     :return: final timestep
     """
     tstep = 1
-    out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+    counter = 0
+    while counter < 1:
+        out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+        if ex == 0:
+            counter += 10
+            return t
+        else:
+            counter += 0.2
     return t
 
 def cull_sir(X0, mu, beta, gamma, tmax, tstep,rng, cull_strength):
@@ -119,6 +135,10 @@ def cull_sir(X0, mu, beta, gamma, tmax, tstep,rng, cull_strength):
     out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength)
 
     return rinf, ex
+
+def traj_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength):
+    out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength)
+    return out,ex
 
 def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model with births and deaths. There are 6 possible events here: birth; S death; I death; R death; infection; recovery
     """
@@ -202,7 +222,7 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
         while counter >= tstep:
             counter = counter - tstep
             sol = np.append(sol,[X],axis=0)
-    while len(sol) > tmax/tstep:
+    while len(sol) > round(tmax/tstep):
         sol = np.delete(sol,-1,0)
     out = sol
     if t < 3 / gamma:

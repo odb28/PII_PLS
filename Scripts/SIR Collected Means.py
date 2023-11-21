@@ -1,12 +1,12 @@
 import numpy as np
 import arviz as az
 
-N_sample = 5
-R0 = 3
+N_sample = 10
+R0 = 5
 g_state =  ["fixed","free"]
 sim_g = g_state[0]
-extra = ["","_I1"]
-I0 = extra[1]
+extra = ["","_I1","_I2"]
+I0 = extra[0]
 
 N_10_b = np.empty(shape = (N_sample,2))
 N_100_b = np.empty(shape = (N_sample,2))

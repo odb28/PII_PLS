@@ -6,11 +6,11 @@ import time
 
 #set the simulation conditions
 g_state = ["fixed","free"]
-sim_g = g_state[1]
+sim_g = g_state[0]
 extra = ["","_I1"]
 I0 = extra[0]
 controls = ["c0","c1","c2","c3"]
-regime = controls[0]
+regime = controls[1]
 omega = 0
 b_mod = 1
 true_gamma = 1
