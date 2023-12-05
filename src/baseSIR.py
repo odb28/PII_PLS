@@ -17,6 +17,21 @@ def real_sir(X0,mu,beta,gamma,tmax,tstep,rng):
     out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
     return out
 
+def real_si(X0,mu,beta,gamma,tmax,tstep,rng):
+    """
+    :param X0: Initial Conditions of the system
+    :param mu: Birth/Death Rate
+    :param beta: Infection Rate
+    :param gamma: Recovery Rate
+    :param tmax: Max Timepoint for the simulation
+    :param tstep: Timesteps to update the solution at
+    :param rng: The RNG for the simulation
+    :return: X(t)
+    """
+
+    out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+    return out[:,0:2]
+
 
 def mle(beta,gamma,sol,time_list,tmax):
     L1 = 0
