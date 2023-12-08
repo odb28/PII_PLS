@@ -34,7 +34,32 @@ I met with Rachel to discuss next steps and the parameter fitting. We came up wi
 5. Look @ final epidemic sizes/extinction proportions for all fitted parameter values. Run 1000 simulations for each.
 6. Add a series of controls: Scale beta; add another gamma parameter; do a fixed cull @ certain timesteps.
 
-## Tuesday 7/10/23
+## Tuesday 7/11/23
 I have continued to work on the 6th above objectives. 1,3,5 and 6 are finished. 2 is harder as the ABC used is based on a more matheamtically involved method that is harder to detect issues for.
 However, N=10 had incredibly low acceptance rates. By fitting with a function that repeats the simulation (up to 10 times) if an early extinction occurs, I hope to increase the stability of N=10.
+
+## Tuesday 14/11/23
+Continued to work on model fitting. There were issues with the convergence of I(0)=1. I carried out the no-extinction "fix", unified the code and ran inital simulations to see how variation in N changes
+simulation results. The main effect was increasing extinction as N decreases, and increased variance
+
+## Tuesday 23/11/23
+I had a meeting with Nik regarding next steps where I presented the work completed up until now. He saw the issues with PyMC fitting, and suggested I build a simple ABC rejection algorithim. I built the algorithim
+in the afternoon.
+
+## Thursday 25/11/23
+Built a simple metapopulation model
+
+## Tuesday 30/11/23
+I used the built ABC model to fit some initial epidemic trajectories. I fitted Splines to the normalised proportion of accepted runs at different distance thresholds.
+
+## Thursday 2/12/23
+Final meeting of term with Nik. We agreed that the cluster was to be used to brute force the rejection ABC to parameterise my models.
+A full list of objectives is found below:
+1. Produce better Splines to charaterise the thresholded ABC curves
+2. Fit with wider values of beta- Nik suggested sampling from an exponential distribution
+3. Make cumulative distance graphs
+4. Investigate better distance metrics
+5. When all above is working, normalise the parameter distributions and sample from them for the simulations
+6. Expand on the metapopulation model and apply all above to it.
+7. Run with I(0)=1
 
