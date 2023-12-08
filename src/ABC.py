@@ -30,7 +30,40 @@ def sum_sqrt_sq_distance(array1,array2):
                 dist += (array1[i][j] - array2[i][j])**2
     return np.sqrt(dist)
 
-def ABC_core(func,para_distro,reality,N,distance,rng):
+def Rinf_distance(array1,array2):
+    try:
+        x=len(array1[0])
+    except:
+        dist = (array1[-1] - array2[-1])**2
+    else:
+        dist = (array1[-1][-1] - array2[-1][-1])**2
+    return dist
+
+def mixed_distance(array1,times1,array2,times2):
+    if len(array1) != len(array2):
+        raise ValueError("Arrays not of equal length")
+    dist = 0
+    try:
+        x=len(array1[0])
+    except:
+        for i in range(len(array1)):
+            dist += (array1[i] - array2[i])**2
+        rinf = (array1[-1] - array2[-1])**2
+        ts = (times1[-1] - times2[-1])**2
+        dist += rinf*100 + ts*100
+    else:
+        for i in range(len(array1)):
+            for j in range(len(array1[i])):
+                dist += (array1[i][j] - array2[i][j])**2
+
+        rinf = (array1[-1][-1] - array2[-1][-1])**2
+        ts = (times1[-1] - times2[-1])**2
+        dist += rinf * 100 + ts*100
+
+
+    return np.sqrt(dist)
+
+def ABC_core(func,para_distro,reality,N,distance,rng,reality_times=(0)):
     """
     :param func: The function to iterate over
     :param para_distro: An array of parameter values
@@ -44,6 +77,19 @@ def ABC_core(func,para_distro,reality,N,distance,rng):
         dis_func = sum_sq_distance
     elif distance == "sum_sqrt_sq":
         dis_func = sum_sqrt_sq_distance
+    elif distance == "rinf":
+        dis_func = Rinf_distance
+    elif distance == "mixed":
+        dis_func = mixed_distance
+        output = np.array([[0, 0]])
+        for parameter in para_distro:
+            for i in range(N):
+                dis_array, dis_times = func(parameter, rng)
+                dis = dis_func(dis_array, dis_times, reality,reality_times)
+                out_pair = np.array([parameter, dis])
+                output = np.append(output, [out_pair], axis=0)
+        print(".", end="")
+        return output[1:]
     else:
         raise ValueError("Not a valid distance measure")
     output = np.array([[0,0]])
