@@ -7,11 +7,15 @@ from decimal import Decimal, ROUND_UP
 import time
 from src.ABC import ABC_core
 from src.ABC import sum_sqrt_sq_distance
+import os
 
 distance_measure_array = ["sum_sq","sum_sqrt_sq","mixed","rinf"]
 dis = distance_measure_array[1]
 
-seed = 1
+cycle = 18
+task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
+seed = np.floor(task_id/cycle)
+iteration = int(round(task_id -cycle*seed +1))
 
 def sim_sir_fixed(b,model_rng):
     return real_sir(X0, mu, b, gamma, tmax, tstep, model_rng) * factor
@@ -29,11 +33,47 @@ start_time = time.time()
 reality = no_ext_sir(X0, mu, beta, gamma, tmax, tstep, rng)
 print(f"Reality took {time.time() - start_time} seconds to run!")
 
-betas = np.arange(1,10.05,0.05)
+
+if iteration == 1:
+    betas = np.arange(1,1.51,0.01)
+elif iteration == 2:
+    betas = np.arange(1.51, 2.01, 0.01)
+elif iteration == 3:
+    betas = np.arange(2.01, 2.51, 0.01)
+elif iteration == 4:
+    betas = np.arange(2.51, 3.01, 0.01)
+elif iteration == 5:
+    betas = np.arange(3.01, 3.51, 0.01)
+elif iteration == 6:
+    betas = np.arange(3.51, 4.01, 0.01)
+elif iteration == 7:
+    betas = np.arange(4.01, 4.51, 0.01)
+elif iteration == 8:
+    betas = np.arange(4.51, 5.01, 0.01)
+elif iteration == 9:
+    betas = np.arange(5.01, 5.51, 0.01)
+elif iteration == 10:
+    betas = np.arange(5.51, 6.01, 0.01)
+elif iteration == 11:
+    betas = np.arange(6.01, 6.51, 0.01)
+elif iteration == 12:
+    betas = np.arange(6.51, 7.01, 0.01)
+elif iteration == 13:
+    betas = np.arange(7.01, 7.51, 0.01)
+elif iteration == 14:
+    betas = np.arange(7.51, 8.01, 0.01)
+elif iteration == 15:
+    betas = np.arange(8.01, 8.51, 0.01)
+elif iteration == 16:
+    betas = np.arange(8.51, 9.01, 0.01)
+elif iteration == 17:
+    betas = np.arange(9.01, 9.51, 0.01)
+elif iteration == 18:
+    betas = np.arange(9.51, 10.01, 0.01)
 
 start_time = time.time()
 factor = 10
 X0 = [90, 10, 0]
 applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,10000,f"{dis}",rng)
-np.savetxt(f"../../Home made ABC Results/Traj1_100b_{dis}_ext_widerB.csv",applied_ABC2,delimiter=",")
-print(f"X1 took {time.time() - start_time} seconds to run!")
+np.savetxt(f"../fittings/fit100s/Traj_{seed}_{iteration}_100b.csv",applied_ABC2,delimiter=",")
+print(f"X2 took {time.time() - start_time} seconds to run!")
