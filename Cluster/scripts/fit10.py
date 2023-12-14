@@ -1,12 +1,12 @@
 import numpy as np
-from src.baseSIR import no_ext_sir
-from src.baseSIR import real_sir
-from src.baseSIR import real_sir_times
-from src.baseSIR import timed_sir
+from PLS.baseSIR import no_ext_sir
+from PLS.baseSIR import real_sir
+from PLS.baseSIR import real_sir_times
+from PLS.baseSIR import timed_sir
 from decimal import Decimal, ROUND_UP
 import time
-from src.ABC import ABC_core
-from src.ABC import sum_sqrt_sq_distance
+from PLS.ABC import ABC_core
+from PLS.ABC import sum_sqrt_sq_distance
 import os
 
 distance_measure_array = ["sum_sq","sum_sqrt_sq","mixed","rinf"]
@@ -14,7 +14,7 @@ dis = distance_measure_array[1]
 
 cycle = 18
 task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
-seed = np.floor(task_id/cycle)
+seed = int(np.floor(task_id/cycle))
 iteration = int(round(task_id -cycle*seed +1))
 
 def sim_sir_fixed(b,model_rng):
@@ -74,6 +74,6 @@ elif iteration == 18:
 start_time = time.time()
 factor = 100
 X0 = [9, 1, 0]
-applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,100000,f"{dis}",rng)
+applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,1,f"{dis}",rng)
 np.savetxt(f"../fittings/fit10s/Traj_{seed}_{iteration}_10b.csv",applied_ABC3,delimiter=",")
 print(f"X3 took {time.time() - start_time} seconds to run!")

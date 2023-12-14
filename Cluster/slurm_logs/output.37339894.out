@@ -1,0 +1,19 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37339894
+======
+Time: Wed Dec 13 17:15:31 GMT 2023
+Running on master node: cpu-p-226
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+
+Nodes allocated:
+================
+cpu-p-226
+
+Executing command:
+==================
+fit1000.py 
+
+9.6
+Reality took 0.0630025863647461 seconds to run!
+.X1 took 3083.1281921863556 seconds to run!

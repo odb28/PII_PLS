@@ -1,0 +1,19 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37339625
+======
+Time: Wed Dec 13 17:06:36 GMT 2023
+Running on master node: cpu-p-164
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+
+Nodes allocated:
+================
+cpu-p-164
+
+Executing command:
+==================
+fit100.py 
+
+8.1
+Reality took 0.05091071128845215 seconds to run!
+.X2 took 4376.92195558548 seconds to run!

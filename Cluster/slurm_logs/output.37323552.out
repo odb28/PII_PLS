@@ -1,0 +1,22 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37323552
+======
+Time: Wed Dec 13 13:30:44 GMT 2023
+Running on master node: cpu-p-130
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+/var/spool/slurm/slurmd/job37323552/slurm_script: line 81: ./slurm_logs/machine.file.37323552: No such file or directory
+
+Nodes allocated:
+================
+cat: ./slurm_logs/machine.file.37323552: No such file or directory
+
+
+Executing command:
+==================
+Test_times.py 
+
+Traceback (most recent call last):
+  File "Test_times.py", line 2, in <module>
+    from src.baseSIR import no_ext_sir
+ModuleNotFoundError: No module named 'src'

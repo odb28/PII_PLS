@@ -1,0 +1,26 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37337195
+======
+Time: Wed Dec 13 16:22:35 GMT 2023
+Running on master node: cpu-p-174
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+/var/spool/slurm/slurmd/job37337195/slurm_script: line 81: ./slurm_logs/machine.file.37337195: No such file or directory
+
+Nodes allocated:
+================
+cat: ../slurm_logs/machine.file.37337195: No such file or directory
+
+
+Executing command:
+==================
+fit10.py 
+
+Traceback (most recent call last):
+  File "fit10.py", line 28, in <module>
+    rng = np.random.default_rng(seed)
+  File "_generator.pyx", line 4404, in numpy.random._generator.default_rng
+  File "_pcg64.pyx", line 109, in numpy.random._pcg64.PCG64.__init__
+  File "_bit_generator.pyx", line 517, in numpy.random._bit_generator.BitGenerator.__init__
+  File "_bit_generator.pyx", line 308, in numpy.random._bit_generator.SeedSequence.__init__
+TypeError: SeedSequence expects int or sequence of ints for entropy not 7.0

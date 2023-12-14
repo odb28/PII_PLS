@@ -1,0 +1,17 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37339646
+======
+Time: Wed Dec 13 17:06:43 GMT 2023
+Running on master node: cpu-p-165
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+
+Nodes allocated:
+================
+cpu-p-165
+
+Executing command:
+==================
+fit100.py 
+
+slurmstepd: error: *** JOB 37339646 ON cpu-p-165 CANCELLED AT 2023-12-13T18:36:40 DUE TO TIME LIMIT ***

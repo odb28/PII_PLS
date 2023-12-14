@@ -1,0 +1,21 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37337966
+======
+Time: Wed Dec 13 16:37:50 GMT 2023
+Running on master node: cpu-p-156
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+/var/spool/slurm/slurmd/job37337966/slurm_script: line 81: ./slurm_logs/machine.file.37337966: No such file or directory
+
+Nodes allocated:
+================
+cat: ../slurm_logs/machine.file.37337966: No such file or directory
+
+
+Executing command:
+==================
+fit10.py 
+
+11.05
+Reality took 0.06702375411987305 seconds to run!
+.X3 took 0.1334836483001709 seconds to run!

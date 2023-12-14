@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: PLS
+Version: 1.0
+Summary: Home functions for Part 2 Project
+Author: Ollie Donaldson
+Author-email: odb28@cam.ac.uk
+Requires-Dist: numpy

@@ -1,12 +1,12 @@
 import numpy as np
-from src.baseSIR import no_ext_sir
-from src.baseSIR import real_sir
-from src.baseSIR import real_sir_times
-from src.baseSIR import timed_sir
+from PLS.baseSIR import no_ext_sir
+from PLS.baseSIR import real_sir
+from PLS.baseSIR import real_sir_times
+from PLS.baseSIR import timed_sir
 from decimal import Decimal, ROUND_UP
 import time
-from src.ABC import ABC_core
-from src.ABC import sum_sqrt_sq_distance
+from PLS.ABC import ABC_core
+from PLS.ABC import sum_sqrt_sq_distance
 
 distance_measure_array = ["sum_sq","sum_sqrt_sq","mixed","rinf"]
 dis = distance_measure_array[1]
@@ -22,7 +22,6 @@ test_time = 100
 rng = np.random.default_rng(1)
 tmax = float(Decimal(tstep) * (Decimal(timed_sir(X0, mu, beta, gamma, test_time, rng) )/ Decimal(tstep)).quantize(1,rounding=ROUND_UP))
 rng = np.random.default_rng(1)
-print(tmax)
 start_time = time.time()
 reality = no_ext_sir(X0, mu, beta, gamma, tmax, tstep, rng)
 print(f"Reality took {time.time() - start_time} seconds to run!")
@@ -32,20 +31,17 @@ betas = np.arange(1,10.05,0.05)
 start_time = time.time()
 factor = 1
 X0 = [900, 100, 0]
-applied_ABC1 = ABC_core(sim_sir_fixed,betas,reality,1,f"{dis}",rng)
-np.savetxt(f"../../Home made ABC Results/Traj1_1000b_{dis}_ext_widerB.csv",applied_ABC1,delimiter=",")
+applied_ABC1 = ABC_core(sim_sir_fixed,betas,reality,10,f"{dis}",rng)
 print(f"X1 took {time.time() - start_time} seconds to run!")
 
 start_time = time.time()
 factor = 10
 X0 = [90, 10, 0]
-applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,1,f"{dis}",rng)
-np.savetxt(f"../../Home made ABC Results/Traj1_100b_{dis}_ext_widerB.csv",applied_ABC2,delimiter=",")
-print(f"X1 took {time.time() - start_time} seconds to run!")
+applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,10,f"{dis}",rng)
+print(f"X2 took {time.time() - start_time} seconds to run!")
 
 start_time = time.time()
 factor = 100
 X0 = [9, 1, 0]
-applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,1,f"{dis}",rng)
-np.savetxt(f"../../Home made ABC Results/Traj1_10b_{dis}_ext_widerB.csv",applied_ABC3,delimiter=",")
+applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,10,f"{dis}",rng)
 print(f"X3 took {time.time() - start_time} seconds to run!")

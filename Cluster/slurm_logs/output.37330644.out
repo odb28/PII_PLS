@@ -1,0 +1,23 @@
+Changed directory to /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts.
+
+JobID: 37330644
+======
+Time: Wed Dec 13 14:25:26 GMT 2023
+Running on master node: cpu-p-301
+Current directory: /home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts
+/var/spool/slurm/slurmd/job37330644/slurm_script: line 81: ./slurm_logs/machine.file.37330644: No such file or directory
+
+Nodes allocated:
+================
+cat: ./slurm_logs/machine.file.37330644: No such file or directory
+
+
+Executing command:
+==================
+Test_times.py 
+
+8.200000000000001
+Reality took 0.05222654342651367 seconds to run!
+.X1 took 9.326591730117798 seconds to run!
+.X2 took 1.096069097518921 seconds to run!
+.X3 took 0.28328752517700195 seconds to run!
