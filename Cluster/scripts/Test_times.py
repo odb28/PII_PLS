@@ -19,29 +19,29 @@ beta = 3
 mu = 0
 tstep = 0.05
 test_time = 100
-rng = np.random.default_rng(1)
+rng = np.random.default_rng(9)
 tmax = float(Decimal(tstep) * (Decimal(timed_sir(X0, mu, beta, gamma, test_time, rng) )/ Decimal(tstep)).quantize(1,rounding=ROUND_UP))
-rng = np.random.default_rng(1)
+rng = np.random.default_rng(9)
 start_time = time.time()
 reality = no_ext_sir(X0, mu, beta, gamma, tmax, tstep, rng)
 print(f"Reality took {time.time() - start_time} seconds to run!")
 
-betas = np.arange(1,10.05,0.05)
+betas = np.arange(1,1.51,0.01)
 
 start_time = time.time()
 factor = 1
-X0 = [900, 100, 0]
-applied_ABC1 = ABC_core(sim_sir_fixed,betas,reality,10,f"{dis}",rng)
+X0 = [999, 1, 0]
+applied_ABC1 = ABC_core(sim_sir_fixed,betas,reality,1000,f"{dis}",rng)
 print(f"X1 took {time.time() - start_time} seconds to run!")
 
 start_time = time.time()
 factor = 10
-X0 = [90, 10, 0]
-applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,10,f"{dis}",rng)
+X0 = [99, 1, 0]
+applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,10000,f"{dis}",rng)
 print(f"X2 took {time.time() - start_time} seconds to run!")
 
 start_time = time.time()
 factor = 100
 X0 = [9, 1, 0]
-applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,10,f"{dis}",rng)
+applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,100000,f"{dis}",rng)
 print(f"X3 took {time.time() - start_time} seconds to run!")

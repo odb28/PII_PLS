@@ -1,6 +1,6 @@
 import numpy as np
 import scipy as sp
-from src.baseSIR import mle
+from PLS.baseSIR import mle
 from src.baseSIR import mle_sir
 import time
 def opt_mle(paras):
