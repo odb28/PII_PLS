@@ -30,6 +30,16 @@ def sum_sqrt_sq_distance(array1,array2):
                 dist += (array1[i][j] - array2[i][j])**2
     return np.sqrt(dist)
 
+def meta_abs_distance(array1,array2):
+    if len(array1) != len(array2):
+        raise ValueError("Arrays not of equal length")
+    dist = 0
+    for i in range(len(array1)):
+        for j in range(len(array1[i])):
+            for k in range(len(array1[i][j])):
+                dist += abs(array1[i][j][k] - array2[i][j][k])
+    return dist
+
 def Rinf_distance(array1,array2):
     try:
         x=len(array1[0])
@@ -77,6 +87,8 @@ def ABC_core(func,para_distro,reality,N,distance,rng,reality_times=(0)):
         dis_func = sum_sq_distance
     elif distance == "sum_sqrt_sq":
         dis_func = sum_sqrt_sq_distance
+    elif distance == "meta":
+        dis_func = meta_abs_distance
     elif distance == "rinf":
         dis_func = Rinf_distance
     elif distance == "mixed":

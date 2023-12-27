@@ -1,16 +1,17 @@
 import numpy as np
-from PLS.baseSIR import no_ext_sir
-from PLS.baseSIR import real_sir
-from PLS.baseSIR import real_sir_times
-from PLS.baseSIR import timed_sir
+from src.PLS.baseSIR import no_ext_sir
+from src.PLS.baseSIR import real_sir
+from src.PLS.baseSIR import real_sir_times
+from src.PLS.baseSIR import timed_sir
 from decimal import Decimal, ROUND_UP
 import time
-from PLS.ABC import ABC_core
-from PLS.ABC import sum_sqrt_sq_distance
+from src.PLS.ABC import ABC_core
+from src.PLS.ABC import sum_sqrt_sq_distance
 import os
 
 distance_measure_array = ["sum_sq","sum_sqrt_sq","mixed","rinf"]
 dis = distance_measure_array[1]
+I0 = ["","I1"][1]
 
 cycle = 18
 task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
@@ -19,7 +20,11 @@ iteration = int(round(task_id -cycle*seed +1))
 
 def sim_sir_fixed(b,model_rng):
     return real_sir(X0, mu, b, gamma, tmax, tstep, model_rng) * factor
-X0 = [900, 100, 0]
+
+if I0 == "":
+    X0 = [900, 100, 0]
+elif I0 == "I1":
+    X0 = [999,1,0]
 gamma = 1
 beta = 3
 mu = 0
