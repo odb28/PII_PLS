@@ -63,3 +63,11 @@ A full list of objectives is found below:
 6. Expand on the metapopulation model and apply all above to it.
 7. Run with I(0)=1
 
+## Friday 12/01/23
+Back working on the project. Over the holidays I learnt to use the University's HPC and fitted the ABC trajectories on it. The only complicaton is the N=10 run failing to reach 0 by 10, which was the new upper value I choose for
+the beta prior distribution. I shall have to expand the range further.
+I investigated 4 above, and found the current measure to be the best. I considered a combination of times and final sizes, but to no avail. I drew up a function for 5 which samples rather effectively from under the curve. I have run the epidemics
+with I(0)=1 and initially with the metapopulations.
+I need to work on mle for metapopulations and for N=10 natively, to prove the proposistion that N=10 will naturely have a wider distribution for both mle and ABC.
+I then need to use my sampled distribution to run simulations. Some mock plots would be good.
+Of course the write up! I will try to write the methods section on Sunday and discuss the rest with Nik next week.
