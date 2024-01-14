@@ -40,8 +40,13 @@ tmax = float(Decimal(tstep) * (Decimal(meta_timed_sir(X0,beta,gamma,N,test_dista
 rng = np.random.default_rng(seed)
 
 R_start = round(1 + (iteration-1)*9/cycle,2)
+#end = round(1+ (iteration)*9/cycle,2)
+Rs = np.array([R_start])
+ 
+
 R_end = round(1+ (iteration)*9/cycle,2)
 Rs = np.arange(R_start,R_end + 0.01,0.01)
+
 betas = Rs/div
 
 reality = meta_no_ext_sir(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
@@ -55,3 +60,5 @@ applied_ABC1 = ABC_core(sim_sir_fixed,betas,reality,1000,f"{dis}",rng)
 applied_ABC1[:,0] = applied_ABC1[:,0]*div
 np.savetxt(f"../fittings/fit1000s/Traj_meta_{seed}_{iteration}_1000b.csv",applied_ABC1,delimiter=",")
 print(f"X1 took {time.time() - start_time} seconds to run!")
+
+

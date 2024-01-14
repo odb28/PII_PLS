@@ -10,17 +10,22 @@ import os
 distance_measure_array = ["sum_sq","sum_sqrt_sq","mixed","rinf"]
 dis = distance_measure_array[1]
 
-#cycle = 18
-#task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
-#seed = int(np.floor(task_id/cycle))
-#iteration = int(round(task_id -cycle*seed +1))
+cycle = 18
+task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
+seed = int(np.floor(task_id/cycle))
+iteration = int(round(task_id -cycle*seed +1))
+I0 = ["","_I1"][1]
 
-seed =1
-iteration=1
 
 def sim_sir_fixed(b,model_rng):
     return real_sir(X0, mu, b, gamma, tmax, tstep, model_rng) * factor
-X0 = [900, 100, 0]
+
+if I0 == "":
+    X0 = [900, 100, 0]
+elif I0 == "_I1":
+    X0 = [999,1,0]
+
+
 gamma = 1
 beta = 3
 mu = 0
@@ -74,7 +79,9 @@ elif iteration == 18:
 
 start_time = time.time()
 factor = 1
-X0 = [900, 100, 0]
+if I0 == "":
+    X0 = [900, 100, 0]
+elif I0 == "_I1":
+    X0 = [999,1,0]
 applied_ABC1 = ABC_core(sim_sir_fixed,betas,reality,1000,f"{dis}",rng)
-#np.savetxt(f"../fittings/fit1000s/Traj_{seed}_{iteration}_1000b.csv",applied_ABC1,delimiter=",")
-print(f"X1 took {time.time() - start_time} seconds to run!")
+np.savetxt(f"../fittings/fit1000s/Traj_{seed}_{iteration}_1000b_{I0}.csv",applied_ABC1,delimiter=",")

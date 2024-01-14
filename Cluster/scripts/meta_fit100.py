@@ -28,10 +28,10 @@ print(test_distances)
 
 R0 = 5
 gamma = 1
-X0 = [[99,1,0]]
+X0 = [[999,1,0]]
 div = sum(X0[0])
 for i in range(N-1):
-    X0.append([100,0,0])
+    X0.append([1000,0,0])
 beta = R0/div
 rng = np.random.default_rng(seed)
 tstep = 0.01
@@ -40,8 +40,12 @@ tmax = float(Decimal(tstep) * (Decimal(meta_timed_sir(X0,beta,gamma,N,test_dista
 rng = np.random.default_rng(seed)
 
 R_start = round(1 + (iteration-1)*9/cycle,2)
-R_end = round(1+ (iteration)*9/cycle,2)
-Rs = np.arange(R_start,R_end + 0.01,0.01)
+#R_end = round(1+ (iteration)*9/cycle,2)
+#R_end = round(1+ (iteration)*9/cycle,2)
+Rs = np.array([R_start])
+#R_end = round(1+ (iteration)*9/cycle,2)
+#Rs = np.arange(R_start,R_end + 0.01,0.01)
+
 betas = Rs/div
 
 reality = meta_no_ext_sir(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
@@ -51,7 +55,9 @@ X0 = [[99,1,0]]
 for i in range(N-1):
     X0.append([100,0,0])
 factor = 10
-applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,1,f"{dis}",rng)
+
+applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,10000,f"{dis}",rng)
 applied_ABC2[:,0] = applied_ABC2[:,0]*div
 np.savetxt(f"../fittings/fit100s/Traj_meta_{seed}_{iteration}_100b.csv",applied_ABC2,delimiter=",")
 print(f"X2 took {time.time() - start_time} seconds to run!")
+

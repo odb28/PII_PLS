@@ -1,13 +1,13 @@
 import numpy as np
-from src.PLS.metaSIR import meta_no_ext_sir
-from src.PLS.metaSIR import meta_sir
-from src.PLS.metaSIR import meta_timed_sir
+from PLS.metaSIR import meta_no_ext_sir
+from PLS.metaSIR import meta_sir
+from PLS.metaSIR import meta_timed_sir
 from decimal import Decimal, ROUND_UP
 import time
-from src.PLS.ABC import ABC_core
-from src.PLS.metaSIR import basic_square_map
-from src.PLS.metaSIR import straight_line_distances
-from src.PLS.metaSIR import basic_kernel
+from PLS.ABC import ABC_core
+from PLS.metaSIR import basic_square_map
+from PLS.metaSIR import straight_line_distances
+from PLS.metaSIR import basic_kernel
 import os
 
 distance_measure_array = ["sum_sq","sum_sqrt_sq","mixed","rinf","meta"]
@@ -26,10 +26,10 @@ test_distances = straight_line_distances(test_map,N,scaling=10)
 
 R0 = 5
 gamma = 1
-X0 = [[9,1,0]]
+X0 = [[999,1,0]]
 div = sum(X0[0])
 for i in range(N-1):
-    X0.append([10,0,0])
+    X0.append([1000,0,0])
 beta = R0/div
 rng = np.random.default_rng(seed)
 tstep = 0.01

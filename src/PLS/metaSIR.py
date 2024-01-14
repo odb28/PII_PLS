@@ -239,7 +239,10 @@ def meta_model_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     """
 
     out, ex, t,  times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng)
-    return  ex
+    rinf = 0
+    for i in range(N_nodes):
+        rinf += out[-1][i][2]
+    return  rinf,ex,t
 
 def meta_no_ext_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     """
@@ -312,3 +315,27 @@ def meta_timed_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
         else:
             counter += 0.2
     return t
+
+def meta_mle_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
+    """
+    :param X0: Initial Conditions of the system
+    :param mu: Birth/Death Rate
+    :param beta: Infection Rate
+    :param gamma: Recovery Rate
+    :param tmax: Max Timepoint for the simulation
+    :param tstep: Timesteps to update the solution at
+    :param rng: The RNG for the simulation
+    :return: X(t), times of events, X(t) updated at every event
+    """
+
+    # Prevent extinctions
+
+    counter = 0
+    while counter < 1:
+        out, ex, t, times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng)
+        if ex == 0:
+            counter += 10
+            return times,timed_sol
+        else:
+            counter += 0.2
+    return times,timed_sol

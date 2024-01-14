@@ -26,7 +26,7 @@ start_time = time.time()
 reality = no_ext_sir(X0, mu, beta, gamma, tmax, tstep, rng)
 print(f"Reality took {time.time() - start_time} seconds to run!")
 
-betas = np.arange(1,1.51,0.01)
+betas = np.arange(3.00,3.51,0.01)
 
 start_time = time.time()
 factor = 1
@@ -43,5 +43,5 @@ print(f"X2 took {time.time() - start_time} seconds to run!")
 start_time = time.time()
 factor = 100
 X0 = [9, 1, 0]
-applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,100000,f"{dis}",rng)
+applied_ABC3 = ABC_core(sim_sir_fixed,betas,reality,10000,f"{dis}",rng)
 print(f"X3 took {time.time() - start_time} seconds to run!")

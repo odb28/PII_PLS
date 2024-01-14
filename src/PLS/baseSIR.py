@@ -14,7 +14,7 @@ def real_sir(X0,mu,beta,gamma,tmax,tstep,rng):
     :return: X(t)
     """
 
-    out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+    out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
     return out
 
 def real_sir_times(X0,mu,beta,gamma,tmax,tstep,rng):
@@ -29,7 +29,7 @@ def real_sir_times(X0,mu,beta,gamma,tmax,tstep,rng):
     :return: X(t)
     """
 
-    out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+    out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
     return out, times
 
 def real_si(X0,mu,beta,gamma,tmax,tstep,rng):
@@ -44,7 +44,7 @@ def real_si(X0,mu,beta,gamma,tmax,tstep,rng):
     :return: X(t)
     """
 
-    out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+    out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
     return out[:,0:2]
 
 
@@ -79,13 +79,13 @@ def mle_sir(X0,mu,beta,gamma,tmax,tstep,rng):
 
     counter = 0
     while counter < 1:
-        out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+        out, ex, t, rinf, times, timed_sol, peak, peak_t = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
         if ex == 0:
             counter += 10
-            return out, times,timed_sol
+            return times,timed_sol
         else:
             counter += 0.2
-    return out,times,timed_sol
+    return times,timed_sol
 
 
 def model_sir(X0, mu, beta, gamma, tmax, tstep,rng):
@@ -101,8 +101,8 @@ def model_sir(X0, mu, beta, gamma, tmax, tstep,rng):
     :return: extinction binary final epidemic size
     """
 
-    out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
-    return rinf, ex
+    out, ex, t, rinf, times, timed_sol, peak, peak_t = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+    return rinf, ex,t,peak,peak_t
 
 def no_ext_sir(X0,mu,beta,gamma,tmax,tstep,rng):
     """
@@ -121,7 +121,7 @@ def no_ext_sir(X0,mu,beta,gamma,tmax,tstep,rng):
 
     counter = 0
     while counter < 1:
-        out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+        out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
         if ex == 0:
             counter += 10
             return out
@@ -146,7 +146,7 @@ def no_ext_sir_times(X0,mu,beta,gamma,tmax,tstep,rng):
 
     counter = 0
     while counter < 1:
-        out, ex, t, rinf,  times, timed_sol = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+        out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
         if ex == 0:
             counter += 10
             return out, times
@@ -168,7 +168,7 @@ def timed_sir(X0,mu,beta,gamma,tmax,rng):
     tstep = 1
     counter = 0
     while counter < 1:
-        out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+        out, ex, t, rinf, times, timed_sol, peak, peak_t = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
         if ex == 0:
             counter += 10
             return t
@@ -189,12 +189,12 @@ def cull_sir(X0, mu, beta, gamma, tmax, tstep,rng, cull_strength):
     :return: final epidemic size, extinction binary
     """
 
-    out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength)
+    out, ex, t, rinf, times, timed_sol, peak, peak_t = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength)
 
     return rinf, ex
 
 def traj_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength):
-    out, ex, t, rinf, times, timed_sol = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength)
+    out, ex, t, rinf, times, timed_sol, peak, peak_t = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength)
     return out,ex
 
 def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model with births and deaths. There are 6 possible events here: birth; S death; I death; R death; infection; recovery
@@ -269,12 +269,14 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
                 ex = 0
             out = sol
             rinf = sol[-1][2]
-            return out, ex, t, rinf,  times, timed_sol
+            peak = max(timed_sol[:, 1])
+            peak_t = times[np.argmax(timed_sol[:, 1])]
+            return out, ex, t, rinf, times, timed_sol, peak, peak_t
 
         if cull_strength >0:
             while cull >= 0.5:
                 cull_target = np.floor(cull_strength*X[1])
-                X = X + [0,-cull_target,cull_target]
+                X = X + [-cull_target,-cull_target,2*cull_target]
                 cull = cull -0.5
         while counter >= tstep:
             counter = counter - tstep
@@ -287,4 +289,6 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
     else:
         ex = 0
     rinf = sol[-1][2]
-    return out, ex, t, rinf,  times, timed_sol
+    peak = max(timed_sol[:,1])
+    peak_t = times[np.argmax(timed_sol[:,1])]
+    return out, ex, t, rinf,  times, timed_sol, peak , peak_t

@@ -18,7 +18,7 @@
 #SBATCH --ntasks=1
 
 #! How much wallclock time will be required?
-#SBATCH --time=00:05:00
+#SBATCH --time=11:05:00
 
 #! Submit a job array with index values between 0 and 31
 #! NOTE: This must be a range, not a single number (i.e. specifying '32' here would only run one job, with index 32)
