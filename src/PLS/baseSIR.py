@@ -17,6 +17,21 @@ def real_sir(X0,mu,beta,gamma,tmax,tstep,rng):
     out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
     return out
 
+def graph_sir(X0,mu,beta,gamma,tmax,tstep,rng):
+    """
+    :param X0: Initial Conditions of the system
+    :param mu: Birth/Death Rate
+    :param beta: Infection Rate
+    :param gamma: Recovery Rate
+    :param tmax: Max Timepoint for the simulation
+    :param tstep: Timesteps to update the solution at
+    :param rng: The RNG for the simulation
+    :return: X(t)
+    """
+
+    out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
+    return out,t
+
 def real_sir_times(X0,mu,beta,gamma,tmax,tstep,rng):
     """
     :param X0: Initial Conditions of the system
@@ -263,7 +278,7 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
             r_step = int(r_t/tstep)
             for i in range(r_step):
                 sol = np.append(sol,[X],axis=0)
-            if t < 3 / gamma:
+            if sol[-1][2] < sum(X0)/5:
                 ex = 1
             else:
                 ex = 0
@@ -284,7 +299,7 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
     while len(sol) > round(tmax/tstep):
         sol = np.delete(sol,-1,0)
     out = sol
-    if t < 3 / gamma:
+    if sol[-1][2] < sum(X0)/5:
         ex = 1
     else:
         ex = 0

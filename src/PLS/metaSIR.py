@@ -36,7 +36,7 @@ def basic_kernel(rate,distance):
         raise ValueError("Dividing by Zero! The Kernel is working on the same node. Stop it!")
 
 
-def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
+def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_strength=0,cull_freq = 2):
     """
     :param X0: The initial State of the metapopulations. Needs to match the number of nodes.
     :param beta: The rate of infection
@@ -52,7 +52,7 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     #set initial conditions
     t =0.0
     counter  =0
-
+    cull = 0
     times = np.array(t)
     X = np.array(X0)
     timed_sol = np.array([X0])
@@ -88,6 +88,7 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
             u = rng.exponential(1/R_tot)
             t = t+ u
             counter += u
+            cull +=u
 
             z = rng.random()
 
@@ -134,12 +135,18 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
             r_step = int(r_t / tstep)
             for i in range(r_step):
                 sol = np.append(sol, [X], axis=0)
-            if t < 3 / gamma:
+            if np.max([sol[-1][i][2] for i in range(N_nodes)]) < sum(X0[0])/5:
                 ex = 1
             else:
                 ex = 0
             out = sol
             return out, ex, t,  times, timed_sol
+        if cull_strength > 0:
+            while cull >= cull_freq:
+                for node in node_list:
+                    cull_target = np.min([np.floor(cull_strength*X[node-1][1]),np.floor(cull_strength*X[node-1][0])])
+                    X[node-1] = X[node-1] + [-cull_target,-cull_target,2*cull_target]
+                    cull = cull -0.5
 
         while counter >= tstep:
             counter = counter - tstep
@@ -147,7 +154,7 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     while len(sol) > round(tmax / tstep):
         sol = np.delete(sol, -1, 0)
     out = sol
-    if t < 3 / gamma:
+    if np.max([sol[-1][i][2] for i in range(N_nodes)]) < sum(X0[0])/5:
         ex = 1
     else:
         ex = 0
@@ -168,6 +175,21 @@ def meta_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
 
     out, ex, t,   times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng)
     return out
+
+def graph_meta_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
+    """
+    :param X0: Initial Conditions of the system
+    :param mu: Birth/Death Rate
+    :param beta: Infection Rate
+    :param gamma: Recovery Rate
+    :param tmax: Max Timepoint for the simulation
+    :param tstep: Timesteps to update the solution at
+    :param rng: The RNG for the simulation
+    :return: X(t)
+    """
+
+    out, ex, t,   times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng)
+    return out,t
 
 def meta_sir_times(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     """
@@ -239,10 +261,14 @@ def meta_model_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     """
 
     out, ex, t,  times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng)
-    rinf = 0
+    rinf = []
+    peaks = []
+    peak_times = []
     for i in range(N_nodes):
-        rinf += out[-1][i][2]
-    return  rinf,ex,t
+        rinf.append(out[-1][i][2])
+        peaks.append(np.max(timed_sol[:,i][:,1]))
+        peak_times.append(times[np.argmax(timed_sol[:,i][:,1])])
+    return  rinf,ex,t,peaks,peak_times
 
 def meta_no_ext_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
     """

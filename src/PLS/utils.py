@@ -1,4 +1,11 @@
 import numpy as np
+from src.PLS.baseSIR import model_sir
+from src.PLS.baseSIR import graph_sir
+from src.PLS.metaSIR import basic_square_map
+from src.PLS.metaSIR import straight_line_distances
+from src.PLS.metaSIR import meta_model_sir
+from src.PLS.metaSIR import graph_meta_sir
+from src.PLS.metaSIR import basic_kernel
 
 def mle(beta,gamma,sol,time_list,tmax):
     L1 = 0
@@ -248,3 +255,245 @@ def threshold_scheduler(results, threshold_references):
         temp = sort_res.iloc[0:int(len(sort_res.index) / (100 / i))]
         output.append(temp.iloc[-1, 1])
     return output
+
+def sims(distro,Type,Size,seed,control,control_paras):
+    #setup dictionary
+    output_dictionary = {}
+    output_dictionary["Extinction"] = []
+    output_dictionary["Tmax"] = []
+    if control == "":
+        beta_multi = 1
+        gamma_add = 0
+        thinning = 0
+        thinning_freq = 2
+    elif control == "c1":
+        beta_multi = control_paras[0]
+        gamma_add = 0
+        thinning = 0
+        thinning_freq = 2
+    elif control == "c2":
+        beta_multi = 1
+        gamma_add = control_paras[0]
+        thinning = 0
+        thinning_freq = 2
+    elif control == "c3":
+        beta_multi = 1
+        gamma_add = 0
+        thinning = control_paras[0]
+        thinning_freq = control_paras[1]
+    else:
+        raise ValueError("Not a type of control! Choose from: c0;c1;c2;c3")
+    if Type == "simple":
+        output_dictionary["Peak"] = []
+        output_dictionary["Tpeak"] = []
+        output_dictionary["Final_size"] = []
+        beta_distro = distro
+        n_sims = len(beta_distro)
+        gamma = 1 + gamma_add
+        mu = 0
+        tstep = 0.05
+        tmax = 100
+        rng = np.random.default_rng(seed)
+        div=1
+        if Size == "1000":
+            X0 = [900,100,0]
+        elif Size == "100":
+            X0 = [90,10,0]
+        elif Size == "10":
+            X0 = [9,1,0]
+        else:
+            raise ValueError("Not possible! Choose size from 1000,100,10")
+        #Run Sims
+        for i in range(n_sims):
+            beta = beta_distro[i]/div * beta_multi
+            rinf, ex,t,peak,peak_t  = model_sir(X0,mu,beta,gamma,tmax,tstep,rng)
+            output_dictionary["Final_size"].append(rinf)
+            output_dictionary["Extinction"].append(ex)
+            output_dictionary["Peak"].append(peak)
+            output_dictionary["Tmax"].append(t)
+            output_dictionary["Tpeak"].append(peak_t)
+    elif Type == "simple_I0":
+        output_dictionary["Peak"] = []
+        output_dictionary["Tpeak"] = []
+        output_dictionary["Final_size"] = []
+        beta_distro = distro
+        n_sims = len(beta_distro)
+        gamma = 1+ gamma_add
+        mu = 0
+        tstep = 0.05
+        tmax = 100
+        rng = np.random.default_rng(seed)
+        div=1
+        if Size == "1000":
+            X0 = [999,1,0]
+        elif Size == "100":
+            X0 = [99,1,0]
+        elif Size == "10":
+            X0 = [9,1,0]
+        else:
+            raise ValueError("Not possible! Choose size from 1000,100,10")
+        #Run Sims
+        for i in range(n_sims):
+            beta = beta_distro[i]/div * beta_multi
+            rinf, ex,t,peak,peak_t  = model_sir(X0,mu,beta,gamma,tmax,tstep,rng)
+            output_dictionary["Final_size"].append(rinf)
+            output_dictionary["Extinction"].append(ex)
+            output_dictionary["Peak"].append(peak)
+            output_dictionary["Tmax"].append(t)
+            output_dictionary["Tpeak"].append(peak_t)
+    elif Type == "meta":
+        output_dictionary["Peak"] = {}
+        output_dictionary["Tpeak"] = {}
+        output_dictionary["Final_size"] = {}
+        beta_distro = distro
+        n_sims = len(beta_distro)
+        N = 4
+        for i in range(0,N):
+            output_dictionary["Peak"][f"Node{i+1}"] = []
+            output_dictionary["Tpeak"][f"Node{i+1}"] = []
+            output_dictionary["Final_size"][f"Node{i + 1}"] = []
+
+        test_map = basic_square_map(N)
+        test_distances = straight_line_distances(test_map,N,scaling=10)
+        gamma = 1+ gamma_add
+        rng = np.random.default_rng(seed)
+        tstep = 0.01
+        tmax = 100
+        if Size == "1000":
+            X0 = [[999,1,0]]
+            div = sum(X0[0])
+            for i in range(N-1):
+                X0.append([1000,0,0])
+        elif Size == "100":
+            X0 = [[99,1,0]]
+            div = sum(X0[0])
+            for i in range(N-1):
+                X0.append([100,0,0])
+        elif Size == "10":
+            X0 = [[9,1,0]]
+            div = sum(X0[0])
+            for i in range(N-1):
+                X0.append([10,0,0])
+        #Run Sims
+        for i in range(n_sims):
+            beta = beta_distro[i]/div * beta_multi
+            rinf, ex,t,peak_l,peak_t_l  = meta_model_sir(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
+            output_dictionary["Extinction"].append(ex)
+            output_dictionary["Tmax"].append(t)
+            for j in range(0,N):
+                output_dictionary["Final_size"][f"Node{j + 1}"].append(rinf[j])
+                output_dictionary["Peak"][f"Node{j + 1}"].append(peak_l[j])
+                output_dictionary["Tpeak"][f"Node{j+1}"].append(peak_t_l[j])
+    return output_dictionary
+
+def sims_graphs(distro,Type,Size,seed,control,control_paras):
+    #setup dictionary
+    output_dictionary = {}
+    if control == "":
+        beta_multi = 1
+        gamma_add = 0
+        thinning = 0
+        thinning_freq = 2
+    elif control == "c1":
+        beta_multi = control_paras[0]
+        gamma_add = 0
+        thinning = 0
+        thinning_freq = 2
+    elif control == "c2":
+        beta_multi = 1
+        gamma_add = control_paras[0]
+        thinning = 0
+        thinning_freq = 2
+    elif control == "c3":
+        beta_multi = 1
+        gamma_add = 0
+        thinning = control_paras[0]
+        thinning_freq = control_paras[1]
+    else:
+        raise ValueError("Not a type of control! Choose from: c0;c1;c2;c3")
+    if Type == "simple":
+        output_dictionary["Runs"] = []
+        output_dictionary["T"] = []
+        beta_distro = distro
+        n_sims = len(beta_distro)
+        gamma = 1 + gamma_add
+        mu = 0
+        tstep = 0.05
+        tmax = 100
+        rng = np.random.default_rng(seed)
+        div=1
+        if Size == "1000":
+            X0 = [900,100,0]
+        elif Size == "100":
+            X0 = [90,10,0]
+        elif Size == "10":
+            X0 = [9,1,0]
+        else:
+            raise ValueError("Not possible! Choose size from 1000,100,10")
+        #Run Sims
+        for i in range(n_sims):
+            beta = beta_distro[i]/div * beta_multi
+            reality, t = graph_sir(X0, mu, beta, gamma, tmax, tstep, rng)
+            output_dictionary["Runs"].append(reality)
+            output_dictionary["T"].append(t)
+
+    elif Type == "simple_I0":
+        output_dictionary["Runs"] = []
+        output_dictionary["T"] = []
+        beta_distro = distro
+        n_sims = len(beta_distro)
+        gamma = 1+ gamma_add
+        mu = 0
+        tstep = 0.05
+        tmax = 100
+        rng = np.random.default_rng(seed)
+        div=1
+        if Size == "1000":
+            X0 = [999,1,0]
+        elif Size == "100":
+            X0 = [99,1,0]
+        elif Size == "10":
+            X0 = [9,1,0]
+        else:
+            raise ValueError("Not possible! Choose size from 1000,100,10")
+        #Run Sims
+        for i in range(n_sims):
+            beta = beta_distro[i]/div * beta_multi
+            reality,t = graph_sir(X0, mu, beta, gamma, tmax, tstep, rng)
+            output_dictionary["Runs"].append(reality)
+            output_dictionary["T"].append(t)
+
+    elif Type == "meta":
+        output_dictionary["Runs"] = []
+        output_dictionary["T"] = []
+        beta_distro = distro
+        n_sims = len(beta_distro)
+        N = 4
+        test_map = basic_square_map(N)
+        test_distances = straight_line_distances(test_map,N,scaling=10)
+        gamma = 1+ gamma_add
+        rng = np.random.default_rng(seed)
+        tstep = 0.01
+        tmax = 100
+        if Size == "1000":
+            X0 = [[999,1,0]]
+            div = sum(X0[0])
+            for i in range(N-1):
+                X0.append([1000,0,0])
+        elif Size == "100":
+            X0 = [[99,1,0]]
+            div = sum(X0[0])
+            for i in range(N-1):
+                X0.append([100,0,0])
+        elif Size == "10":
+            X0 = [[9,1,0]]
+            div = sum(X0[0])
+            for i in range(N-1):
+                X0.append([10,0,0])
+        #Run Sims
+        for i in range(n_sims):
+            beta = beta_distro[i]/div * beta_multi
+            reality,t  = graph_meta_sir(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
+            output_dictionary["Runs"].append(reality)
+            output_dictionary["T"].append(t)
+    return output_dictionary
