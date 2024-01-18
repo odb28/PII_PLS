@@ -78,3 +78,20 @@ I have fully run all the events on the Cluster, for all three chosen scenarios. 
 range of events. I have sampled the distributions intially for 1000 samples, and have used these to seed simulations. I have saved the final epidemic size, Tmax, the peak epidemic size, time @ peak and extinction (defined as infecting less than 0.2N)
 for each simulation. These values have been chosen to characterise the epidemic. I have then begun to apply controls: a multiplier on beta, a addition to gamma (simulating rouging) and thinning (removing X% of the population at Y time intervals).
 These should allow us to examine the practical applications of the quantisation research i.e. does the choice of quantisation effect your management plan.
+
+## Thursday 18/01/24
+
+I had a 2 hour chat with Nik and Rachel reviewing me Christmas work. We covered a review of using the ABC to fit the beta parameter for a simple SIR with both I(0)=0.1N and I(0)=1. We also looked at the same ABC curves
+for a metapopulation model. We then reviewed the results of 1000 simulations for each of the three scenarios. I had produced histograms of the characteristic summaries produced above, as well as average barplots. I then showed
+the results of the initial control set with beta.
+
+Overall, Nik was happy with my progress. We decided that I have enough results, however there were a few points to tidy up. One was on explanations: I had some results e.g., Tmax scaling with N that were unexpected. Furthermore, the 
+final sizes of the I(0)=1 scenarios (as the metapopulation is also I(0)=1) also showed a pattern where increasing N increases the population size. For the ease of visualisation, Nik suggested that it would be wise to look at the deterministic system
+to see if it recapitulates any of the stochastic system. The following points were raised:
+1. Find explanations for all of my results. If no explanation, no presentation.
+2. Run deterministic models with the MLE for all of the circumstances and see what the ODE system should do.
+3. Run simulations with MLE point estimate and compare to ODE and real life equation. Should recapitulate it hopefully. Segregates out what effect is parameter fitting and what is intrinsic dynamics.
+3. Repeat all the metapopulations with another seed.
+4. 10k reps for N=1000 ABC fitting for the metapopulation case.
+5. Write an abstract and propose initial figures for the write-up
+ 
