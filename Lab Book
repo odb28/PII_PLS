@@ -35,7 +35,7 @@ I met with Rachel to discuss next steps and the parameter fitting. We came up wi
 6. Add a series of controls: Scale beta; add another gamma parameter; do a fixed cull @ certain timesteps.
 
 ## Tuesday 7/11/23
-I have continued to work on the 6th above objectives. 1,3,5 and 6 are finished. 2 is harder as the ABC used is based on a more matheamtically involved method that is harder to detect issues for.
+I have continued to work on the 6 above objectives. 1,3,5 and 6 are finished. 2 is harder as the ABC used is based on a more matheamtically involved method that is harder to detect issues for.
 However, N=10 had incredibly low acceptance rates. By fitting with a function that repeats the simulation (up to 10 times) if an early extinction occurs, I hope to increase the stability of N=10.
 
 ## Tuesday 14/11/23
@@ -63,7 +63,7 @@ A full list of objectives is found below:
 6. Expand on the metapopulation model and apply all above to it.
 7. Run with I(0)=1
 
-## Friday 12/01/23
+## Friday 12/01/24
 Back working on the project. Over the holidays I learnt to use the University's HPC and fitted the ABC trajectories on it. The only complicaton is the N=10 run failing to reach 0 by 10, which was the new upper value I choose for
 the beta prior distribution. I shall have to expand the range further.
 I investigated 4 above, and found the current measure to be the best. I considered a combination of times and final sizes, but to no avail. I drew up a function for 5 which samples rather effectively from under the curve. I have run the epidemics
@@ -71,3 +71,10 @@ with I(0)=1 and initially with the metapopulations.
 I need to work on mle for metapopulations and for N=10 natively, to prove the proposistion that N=10 will naturely have a wider distribution for both mle and ABC.
 I then need to use my sampled distribution to run simulations. Some mock plots would be good.
 Of course the write up! I will try to write the methods section on Sunday and discuss the rest with Nik next week.
+
+## Wednesday 17/01/24
+
+I have fully run all the events on the Cluster, for all three chosen scenarios. I have also written a script to calculate the MLE of metapopulations. This was achieved through extending the previous function to accomodate a wider
+range of events. I have sampled the distributions intially for 1000 samples, and have used these to seed simulations. I have saved the final epidemic size, Tmax, the peak epidemic size, time @ peak and extinction (defined as infecting less than 0.2N)
+for each simulation. These values have been chosen to characterise the epidemic. I have then begun to apply controls: a multiplier on beta, a addition to gamma (simulating rouging) and thinning (removing X% of the population at Y time intervals).
+These should allow us to examine the practical applications of the quantisation research i.e. does the choice of quantisation effect your management plan.
