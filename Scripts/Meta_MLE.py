@@ -11,10 +11,10 @@ import time
 def opt_mle(paras):
     return - meta_mle(paras[0]/div,gamma,timed_real,times_real,tmax,basic_kernel,test_distances,causes)
 
-R0 = 5
+R0 = 3
 mle_b = []
 start_time = time.time()
-for i in [1]:
+for i in [2]:
     seed = i
     N = 4
     test_map = basic_square_map(N)
@@ -48,4 +48,5 @@ for i in [1]:
     mle_b.append(best_b)
 print(f"MLE took {time.time() - start_time} seconds to run")
 
-np.savetxt(f"../Data/R0_{R0}/Fitted/MLE_meta_b.csv", mle_b, delimiter=",")
+print(mle_b)
+#np.savetxt(f"../Data/R0_{R0}/Fitted/MLE_meta_b_{seed}.csv", mle_b, delimiter=",")

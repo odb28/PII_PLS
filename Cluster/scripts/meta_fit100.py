@@ -46,7 +46,7 @@ Rs = np.array([R_start])
 #R_end = round(1+ (iteration)*9/cycle,2)
 #Rs = np.arange(R_start,R_end + 0.01,0.01)
 
-betas = Rs/div
+
 
 reality = meta_no_ext_sir(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
 start_time = time.time()
@@ -55,6 +55,9 @@ X0 = [[99,1,0]]
 for i in range(N-1):
     X0.append([100,0,0])
 factor = 10
+
+div = sum(X0[0])
+betas = Rs/div
 
 applied_ABC2 = ABC_core(sim_sir_fixed,betas,reality,10000,f"{dis}",rng)
 applied_ABC2[:,0] = applied_ABC2[:,0]*div
