@@ -32,6 +32,29 @@ def graph_sir(X0,mu,beta,gamma,tmax,tstep,rng):
     out, ex, t, rinf,  times, timed_sol, peak, peak_t = core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength=0)
     return out,t
 
+def graph_no_ext_sir(X0,mu,beta,gamma,tmax,tstep,rng):
+    """
+    :param X0: Initial Conditions of the system
+    :param mu: Birth/Death Rate
+    :param beta: Infection Rate
+    :param gamma: Recovery Rate
+    :param tmax: Max Timepoint for the simulation
+    :param tstep: Timesteps to update the solution at
+    :param rng: The RNG for the simulation
+    :return: X(t)
+    """
+
+
+    counter = 0
+    while counter < 1:
+        out, ex, t, rinf, times, timed_sol, peak, peak_t = core_sir(X0, mu, beta, gamma, tmax, tstep, rng, cull_strength=0)
+        if ex == 0:
+            counter += 10
+            return out,t
+        else:
+            counter += 0.2
+    return out,t
+
 def real_sir_times(X0,mu,beta,gamma,tmax,tstep,rng):
     """
     :param X0: Initial Conditions of the system

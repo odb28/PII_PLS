@@ -6,6 +6,8 @@ from src.PLS.metaSIR import straight_line_distances
 from src.PLS.metaSIR import meta_model_sir
 from src.PLS.metaSIR import graph_meta_sir
 from src.PLS.metaSIR import basic_kernel
+from src.PLS.metaSIR import graph_meta_no_ext_sir
+from src.PLS.baseSIR import graph_no_ext_sir
 
 def mle(beta,gamma,sol,time_list,tmax):
     L1 = 0
@@ -386,9 +388,19 @@ def sims(distro,Type,Size,seed,control,control_paras):
                 output_dictionary["Tpeak"][f"Node{j+1}"].append(peak_t_l[j])
     return output_dictionary
 
-def sims_graphs(distro,Type,Size,seed,control,control_paras):
+def sims_graphs(distro,Type,Size,seed,control,control_paras,ext=False):
     #setup dictionary
     output_dictionary = {}
+    if ext == False:
+        if Type == "meta":
+            grapher = graph_meta_sir
+        else:
+            grapher = graph_sir
+    elif ext == True:
+        if Type == "meta":
+            grapher = graph_meta_no_ext_sir
+        else:
+            grapher = graph_no_ext_sir
     if control == "":
         beta_multi = 1
         gamma_add = 0
@@ -433,7 +445,7 @@ def sims_graphs(distro,Type,Size,seed,control,control_paras):
         #Run Sims
         for i in range(n_sims):
             beta = beta_distro[i]/div * beta_multi
-            reality, t = graph_sir(X0, mu, beta, gamma, tmax, tstep, rng)
+            reality, t = grapher(X0, mu, beta, gamma, tmax, tstep, rng)
             output_dictionary["Runs"].append(reality)
             output_dictionary["T"].append(t)
 
@@ -459,7 +471,7 @@ def sims_graphs(distro,Type,Size,seed,control,control_paras):
         #Run Sims
         for i in range(n_sims):
             beta = beta_distro[i]/div * beta_multi
-            reality,t = graph_sir(X0, mu, beta, gamma, tmax, tstep, rng)
+            reality,t = grapher(X0, mu, beta, gamma, tmax, tstep, rng)
             output_dictionary["Runs"].append(reality)
             output_dictionary["T"].append(t)
 
@@ -493,7 +505,7 @@ def sims_graphs(distro,Type,Size,seed,control,control_paras):
         #Run Sims
         for i in range(n_sims):
             beta = beta_distro[i]/div * beta_multi
-            reality,t  = graph_meta_sir(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
+            reality,t  = grapher(X0,beta,gamma,N,test_distances,basic_kernel,tmax,tstep,rng)
             output_dictionary["Runs"].append(reality)
             output_dictionary["T"].append(t)
     return output_dictionary
