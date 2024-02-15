@@ -113,6 +113,49 @@ def ABC_core(func,para_distro,reality,N,distance,rng,reality_times=(0)):
     print(".",end="")
     return output[1:]
 
+def ABC_core_2d(func,para1_distro,para2_distro,reality,N,distance,rng,reality_times=(0)):
+    """
+    :param func: The function to iterate over
+    :param para_distro: An array of parameter values
+    :param N: The number of iterations for each parameter value
+    :param distance: The method for choosing a distance measure
+    :param rng: RNG
+    :return: An array of the parameter values with distance measures
+    """
+
+    if distance == "sum_sq":
+        dis_func = sum_sq_distance
+    elif distance == "sum_sqrt_sq":
+        dis_func = sum_sqrt_sq_distance
+    elif distance == "meta":
+        dis_func = meta_abs_distance
+    elif distance == "rinf":
+        dis_func = Rinf_distance
+    elif distance == "mixed":
+        dis_func = mixed_distance
+        output = np.array([[0, 0,0]])
+        for first in para1_distro:
+            for second in para2_distro:
+                for i in range(N):
+                    dis_array, dis_times = func(first, second, rng)
+                    dis = dis_func(dis_array, dis_times, reality,reality_times)
+                    out_triplet = np.array([first,second, dis])
+                    output = np.append(output, [out_triplet], axis=0)
+        print(".", end="")
+        return output[1:]
+    else:
+        raise ValueError("Not a valid distance measure")
+    output = np.array([[0,0]])
+    for first in para1_distro:
+        for second in para2_distro:
+            for i in range(N):
+                dis_array, dis_times = func(first, second, rng)
+                dis = dis_func(dis_array, dis_times, reality, reality_times)
+                out_triplet = np.array([first, second, dis])
+                output = np.append(output, [out_triplet], axis=0)
+    print(".", end="")
+    return output[1:]
+
 def ABC_rejection(epsilon,core_output):
     return core_output[core_output[:,1] <= epsilon]
 

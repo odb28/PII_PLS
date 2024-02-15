@@ -301,7 +301,7 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
             r_step = int(r_t/tstep)
             for i in range(r_step):
                 sol = np.append(sol,[X],axis=0)
-            if sol[-1][2] < sum(X0)/5:
+            if sol[-1][2] < sum(X0)*0.3:
                 ex = 1
             else:
                 ex = 0
@@ -322,7 +322,7 @@ def core_sir(X0,mu,beta,gamma,tmax,tstep,rng,cull_strength): #define a SIR Model
     while len(sol) > round(tmax/tstep):
         sol = np.delete(sol,-1,0)
     out = sol
-    if sol[-1][2] < sum(X0)/5:
+    if sol[-1][2] < sum(X0) * 0.3:
         ex = 1
     else:
         ex = 0
