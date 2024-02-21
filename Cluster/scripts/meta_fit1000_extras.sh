@@ -18,11 +18,11 @@
 #SBATCH --ntasks=1
 
 #! How much wallclock time will be required?
-#SBATCH --time=01:00:00
+#SBATCH --time=11:30:00
 
 #! Submit a job array with index values between 0 and 31
 #! NOTE: This must be a range, not a single number (i.e. specifying '32' here would only run one job, with index 32)
-#SBATCH --array=900-1799
+#SBATCH --array=0-36
 
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
@@ -56,7 +56,7 @@ workdir="/home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts"  # The value of SLURM
 
 #! ############################################################
 #! Command line construction
-application="meta_fit1000.py"
+application="meta_fit1000_extras.py"
 options=""
 
 CMD="$application $options"

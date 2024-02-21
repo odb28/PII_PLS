@@ -47,7 +47,7 @@ start_time = time.time()
 X0 = [[9,1,0]]
 
 for i in range(N-1):
-    X0.append([1,0,0])
+    X0.append([10,0,0])
 
 factor = 100
 

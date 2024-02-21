@@ -22,7 +22,7 @@
 
 #! Submit a job array with index values between 0 and 31
 #! NOTE: This must be a range, not a single number (i.e. specifying '32' here would only run one job, with index 32)
-#SBATCH --array=900-1799
+#SBATCH --array=0-900
 
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
@@ -56,7 +56,7 @@ workdir="/home/odb28/rds/hpc-work/PII_PLS/Cluster/scripts"  # The value of SLURM
 
 #! ############################################################
 #! Command line construction
-application="meta_fit1000.py"
+application="second_dimension.py"
 options=""
 
 CMD="$application $options"

@@ -16,8 +16,8 @@ dis = distance_measure_array[-1]
 task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
 seed = 1
 iteration = task_id
-Rs = np.arange(1,10.1,0.1)[int(np.floor(task_id/10))]
-dispersal_para = np.arange(1,11,1)[int(str(task_id)[-1])]
+Rs = np.array([np.arange(1,10.1,0.1)[int(np.floor(task_id/10))]])
+dispersal_para = np.array([np.arange(1,11,1)[int(str(task_id)[-1])]])
 
 def sim_sir_fixed(b,m,model_rng):
     return meta_sir(X0,b,gamma,N,test_distances,basic_kernel,tmax,tstep,model_rng,dispersal = m) * factor
@@ -45,7 +45,7 @@ start_time = time.time()
 X0 = [[9,1,0]]
 
 for i in range(N-1):
-    X0.append([1,0,0])
+    X0.append([10,0,0])
 
 factor = 100
 

@@ -15,7 +15,8 @@ dis = distance_measure_array[-1]
 
 cycle = 900
 task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
-seed = int(np.floor(task_id/cycle))
+#seed = int(np.floor(task_id/cycle))
+seed = 1
 #iteration = int(round(task_id -cycle*seed +1))
 iteration = [139, 411, 415, 419, 423, 428, 432, 436, 440, 444, 448, 453,
              457, 461, 519, 523, 528, 532, 536, 540, 544, 548, 553,

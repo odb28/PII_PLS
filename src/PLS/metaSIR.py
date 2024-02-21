@@ -36,7 +36,8 @@ def basic_kernel(rate,distance):
         raise ValueError("Dividing by Zero! The Kernel is working on the same node. Stop it!")
 
 
-def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_strength=0,cull_freq = 2):
+
+def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_strength=0,cull_freq = 2,dispersal=1):
     """
     :param X0: The initial State of the metapopulations. Needs to match the number of nodes.
     :param beta: The rate of infection
@@ -70,7 +71,7 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_str
     for j in node_list:
         other_nodes = np.delete(node_list,[j-1])
         for i in other_nodes:
-                nodes[f"node{j}"]["foreign_inf"] += kernel(beta*X[j-1][0]*X[i-1][1],distances[j-1,i-1])
+                nodes[f"node{j}"]["foreign_inf"] += dispersal*kernel(beta*X[j-1][0]*X[i-1][1],distances[j-1,i-1])
         nodes[f"node{j}"]["total_inf"] =   nodes[f"node{j}"]["domestic_inf"] + nodes[f"node{j}"]["foreign_inf"]
 
     while t < tmax:
@@ -122,7 +123,7 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_str
                 other_nodes = np.delete(node_list,[j-1])
                 nodes[f"node{j}"]["foreign_inf"] = 0
                 for i in other_nodes:
-                    nodes[f"node{j}"]["foreign_inf"] += kernel(beta*X[j-1][0]*X[i-1][1],distances[j-1,i-1])
+                    nodes[f"node{j}"]["foreign_inf"] += dispersal*kernel(beta*X[j-1][0]*X[i-1][1],distances[j-1,i-1])
 
                 nodes[f"node{j}"]["total_inf"] = nodes[f"node{j}"]["domestic_inf"] + nodes[f"node{j}"]["foreign_inf"]
 
@@ -135,7 +136,7 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_str
             r_step = int(r_t / tstep)
             for i in range(r_step):
                 sol = np.append(sol, [X], axis=0)
-            if np.max([sol[-1][i][2] for i in range(N_nodes)]) < sum(X0[0])/5:
+            if np.max([sol[-1][i][2] for i in range(N_nodes)]) < sum(X0[0])*0.3:
                 ex = 1
             else:
                 ex = 0
@@ -154,14 +155,14 @@ def meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,cull_str
     while len(sol) > round(tmax / tstep):
         sol = np.delete(sol, -1, 0)
     out = sol
-    if np.max([sol[-1][i][2] for i in range(N_nodes)]) < sum(X0[0])/5:
+    if np.max([sol[-1][i][2] for i in range(N_nodes)]) < sum(X0[0])*0.3:
         ex = 1
     else:
         ex = 0
 
     return out, ex, t,  times, timed_sol
 
-def meta_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
+def meta_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,dispersal=1):
     """
     :param X0: Initial Conditions of the system
     :param mu: Birth/Death Rate

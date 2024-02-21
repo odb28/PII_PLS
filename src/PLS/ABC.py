@@ -113,7 +113,7 @@ def ABC_core(func,para_distro,reality,N,distance,rng,reality_times=(0)):
     print(".",end="")
     return output[1:]
 
-def ABC_core_2d(func,para1_distro,para2_distro,reality,N,distance,rng,reality_times=(0)):
+def ABC_2d(func,para1_distro,para2_distro,reality,N,distance,rng,reality_times=(0)):
     """
     :param func: The function to iterate over
     :param para_distro: An array of parameter values
@@ -139,21 +139,19 @@ def ABC_core_2d(func,para1_distro,para2_distro,reality,N,distance,rng,reality_ti
                 for i in range(N):
                     dis_array, dis_times = func(first, second, rng)
                     dis = dis_func(dis_array, dis_times, reality,reality_times)
-                    out_triplet = np.array([first,second, dis])
+                    out_triplet = np.array([first,second,dis])
                     output = np.append(output, [out_triplet], axis=0)
         print(".", end="")
         return output[1:]
     else:
         raise ValueError("Not a valid distance measure")
-    output = np.array([[0,0]])
+    output = np.array([[0,0,0]])
     for first in para1_distro:
         for second in para2_distro:
             for i in range(N):
-                dis_array, dis_times = func(first, second, rng)
-                dis = dis_func(dis_array, dis_times, reality, reality_times)
-                out_triplet = np.array([first, second, dis])
-                output = np.append(output, [out_triplet], axis=0)
-    print(".", end="")
+                dis = dis_func((func(first,second,rng)),reality)
+                out_triplet = np.array([first,second,dis])
+                output = np.append(output,[out_triplet],axis = 0)
     return output[1:]
 
 def ABC_rejection(epsilon,core_output):
