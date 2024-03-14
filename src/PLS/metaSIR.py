@@ -174,7 +174,7 @@ def meta_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,dispersal=1):
     :return: X(t)
     """
 
-    out, ex, t,   times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng)
+    out, ex, t,   times, timed_sol = meta_core_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng,dispersal=dispersal)
     return out
 
 def graph_meta_sir(X0,beta,gamma,N_nodes,distances,kernel,tmax,tstep,rng):
