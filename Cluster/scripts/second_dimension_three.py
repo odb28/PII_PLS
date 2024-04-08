@@ -17,7 +17,7 @@ task_id = int(os.getenv("SLURM_ARRAY_TASK_ID"))
 seed = 1
 iteration = task_id
 Rs = np.array([np.arange(1,10.1,0.1)[int(np.floor(task_id/10))]])
-dispersal_para = np.array([np.arange(11,21,1)[int(str(task_id)[-1])]])
+dispersal_para = np.array([np.arange(21,31,1)[int(str(task_id)[-1])]])
 
 def sim_sir_fixed(b,m,model_rng):
     return meta_sir(X0,b,gamma,N,test_distances,basic_kernel,tmax,tstep,model_rng,dispersal = m) * factor
@@ -55,5 +55,5 @@ mus = dispersal_para
 
 applied_ABC3 = ABC_2d(sim_sir_fixed,betas,mus,reality,10000,f"{dis}",rng)
 applied_ABC3[:,0] = applied_ABC3[:,0]*div
-np.savetxt(f"../fittings/second_dimension/Traj_meta_2_{iteration}_10b.csv",applied_ABC3,delimiter=",")
+np.savetxt(f"../fittings/second_dimension/Traj_meta_3_{iteration}_10b.csv",applied_ABC3,delimiter=",")
 print(f"X3 took {time.time() - start_time} seconds to run!")
