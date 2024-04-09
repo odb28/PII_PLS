@@ -6,3 +6,5 @@ Figure Production contains the code needed to recreate all the figures and diagr
 src contains custom functions that I refer to; anyone interested in reproducing my ABC implementation or epidemic models should look here.
 Cluster_workflow_Notebooks contain the code that carried out analysis without figure production i.e. sampling from my parameter distributions and running simulations.
 Developmental contains all the other code and graphs produced during my research that didn't directly contribute to the material seen in my write up.
+
+The Branch Final Code contains the most up to date code.
